@@ -1,7 +1,6 @@
 package fi.ds.tbd.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 import fi.ds.tbd.logic.CollisionChecker;
@@ -16,7 +15,7 @@ public class Player implements Disposable {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
     
-    private final Sprite sprite;
+    public final Sprite sprite;
     public final Rectangle hitbox;
     public float x, y;
     public float dx, dy;
@@ -46,10 +45,6 @@ public class Player implements Disposable {
         y = hitbox.y;
         sprite.x = x;
         sprite.y = y;
-    }
-    
-    public void render(SpriteBatch batch) {
-        sprite.render(batch);
     }
     
     @Override

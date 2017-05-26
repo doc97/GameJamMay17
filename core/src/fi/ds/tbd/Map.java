@@ -11,10 +11,9 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class Map implements Disposable {
 
-    private final Sprite sprite;
-    
     public static final int WIDTH = Gdx.graphics.getWidth();
     public static final int HEIGHT = Gdx.graphics.getHeight();
+    public final Sprite sprite;
     
     public Map() {
         sprite = new Sprite();

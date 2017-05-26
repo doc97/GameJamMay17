@@ -1,7 +1,6 @@
 package fi.ds.tbd.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import fi.ds.tbd.Sprite;
 
@@ -20,9 +19,5 @@ public class Wall {
         sprite.height = HEIGHT;
         sprite.texture = new Texture("wall.png");
         hitbox = new Rectangle(x, y, WIDTH, HEIGHT);
-    }
-    
-    public void render(SpriteBatch batch) {
-        sprite.render(batch);
     }
 }

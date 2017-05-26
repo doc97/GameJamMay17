@@ -2,7 +2,7 @@ package fi.ds.tbd.logic;
 
 import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import fi.ds.tbd.SpriteRenderer;
 
 /**
  *
@@ -26,8 +26,8 @@ public class RoundGame {
             nextRound();
     }
     
-    public void render(SpriteBatch batch) {
-        currRound.render(batch);
+    public void prepareRender(SpriteRenderer renderer) {
+        currRound.prepareRender(renderer);
     }
     
     private void nextRound() {

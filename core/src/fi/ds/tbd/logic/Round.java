@@ -1,8 +1,8 @@
 package fi.ds.tbd.logic;
 
 import fi.ds.tbd.entities.Player;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import fi.ds.tbd.Map;
+import fi.ds.tbd.SpriteRenderer;
 
 /**
  *
@@ -39,10 +39,10 @@ public class Round {
         timeSec -= delta;
     }
     
-    public void render(SpriteBatch batch) {
-        map.render(batch);
-        player1.render(batch);
-        player2.render(batch);
+    public void prepareRender(SpriteRenderer renderer) {
+        renderer.add(map.sprite);
+        renderer.add(player1.sprite);
+        renderer.add(player2.sprite);
     }
     
     public boolean hasTimeLeft() {

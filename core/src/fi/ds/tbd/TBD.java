@@ -8,20 +8,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TBD extends Game {
-    private SpriteBatch batch;
+    private SpriteRenderer renderer;
     private InputMultiplexer inputs;
-    private CollisionChecker collisions;
     private Player player1;
     private Player player2;
     private RoundGame game;
-    private Map map;
 
     @Override
     public void create () {
-        batch = new SpriteBatch();
+        renderer = new SpriteRenderer();
         
         player1 = new Player(100, 100);
         player2 = new Player(400, 400);
@@ -33,9 +30,8 @@ public class TBD extends Game {
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
         
-        collisions = new CollisionChecker();
-        collisions.player1 = player1;
-        collisions.player2 = player2;
+        CollisionChecker.player1 = player1;
+        CollisionChecker.player2 = player2;
 
         game = new RoundGame(player1, player2);
     }
@@ -46,14 +42,13 @@ public class TBD extends Game {
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        game.render(batch);
-        batch.end();
+        game.prepareRender(renderer);
+        renderer.render();
     }
 
     @Override
     public void dispose () {
-        batch.dispose();
+        renderer.dispose();
         player1.dispose();
     }
 }
