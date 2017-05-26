@@ -12,6 +12,7 @@ public class TBD extends Game {
     private InputMultiplexer inputs;
     private Player player1;
     private Player player2;
+    private RoundGame game;
     private Map map;
 
     @Override
@@ -19,16 +20,7 @@ public class TBD extends Game {
         batch = new SpriteBatch();
         
         player1 = new Player(100, 100);
-        player1.x = 50;
-        player1.y = 50;
-        player1.speed = 200;
-        
         player2 = new Player(400, 400);
-        player2.x = 200;
-        player2.y = 200;
-        player2.speed = 200;
-        
-        map = new Map();
         
         inputs = new InputMultiplexer();
         PlayerInputProcessor p1Input = new PlayerInputProcessor(player1, Keys.W, Keys.S, Keys.A, Keys.D, Keys.SPACE);
@@ -39,19 +31,18 @@ public class TBD extends Game {
         
         CollisionChecker.player1 = player1;
         CollisionChecker.player2 = player2;
+
+        game = new RoundGame(player1, player2);
     }
 
     @Override
     public void render () {
-        player1.update(Gdx.graphics.getDeltaTime());
-        player2.update(Gdx.graphics.getDeltaTime());
+        game.update(Gdx.graphics.getDeltaTime());
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        map.render(batch);
-        player1.render(batch);
-        player2.render(batch);
+        game.render(batch);
         batch.end();
     }
 
