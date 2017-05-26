@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class TBD extends Game {
     private SpriteBatch batch;
     private Player player;
+    private Map map;
 
     @Override
     public void create () {
@@ -15,13 +16,16 @@ public class TBD extends Game {
         player = new Player();
         player.x = 50;
         player.y = 50;
+        
+        map = new Map();
     }
 
     @Override
     public void render () {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        map.render(batch);
         player.render(batch);
         batch.end();
     }
