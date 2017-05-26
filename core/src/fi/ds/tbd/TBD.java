@@ -18,12 +18,12 @@ public class TBD extends Game {
     public void create () {
         batch = new SpriteBatch();
         
-        player1 = new Player();
+        player1 = new Player(100, 100);
         player1.x = 50;
         player1.y = 50;
         player1.speed = 200;
         
-        player2 = new Player();
+        player2 = new Player(400, 400);
         player2.x = 200;
         player2.y = 200;
         player2.speed = 200;
@@ -36,6 +36,9 @@ public class TBD extends Game {
         inputs.addProcessor(p1Input);
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
+        
+        CollisionChecker.player1 = player1;
+        CollisionChecker.player2 = player2;
     }
 
     @Override
