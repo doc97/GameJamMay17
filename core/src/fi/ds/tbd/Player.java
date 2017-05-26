@@ -13,6 +13,7 @@ public class Player implements Disposable {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
     private final Sprite sprite;
+    public float x, y;
     
     public Player() {
         sprite = new Sprite();
@@ -22,12 +23,7 @@ public class Player implements Disposable {
     }
     
     public void render(SpriteBatch batch) {
-        sprite.render(batch);
-    }
-    
-    public void setPosition(float x, float y) {
-        sprite.x = x;
-        sprite.y = y;
+        sprite.render(batch, x, y);
     }
     
     @Override

@@ -12,10 +12,9 @@ public class Sprite implements Disposable {
 
     public Texture texture;
     public Texture tint;
-    public float x, y;
     public float width, height;
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float x, float y) {
         if (texture != null)
             batch.draw(texture, x, y, width, height);
         if (tint != null)
