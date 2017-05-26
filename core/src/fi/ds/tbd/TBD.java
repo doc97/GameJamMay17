@@ -1,5 +1,8 @@
 package fi.ds.tbd;
 
+import fi.ds.tbd.logic.CollisionChecker;
+import fi.ds.tbd.logic.RoundGame;
+import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

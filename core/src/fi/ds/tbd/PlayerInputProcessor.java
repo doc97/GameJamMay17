@@ -1,5 +1,6 @@
 package fi.ds.tbd;
 
+import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.InputAdapter;
 
 public class PlayerInputProcessor extends InputAdapter {

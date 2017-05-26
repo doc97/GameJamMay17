@@ -1,5 +1,7 @@
-package fi.ds.tbd;
+package fi.ds.tbd.logic;
 
+import fi.ds.tbd.entities.Wall;
+import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;

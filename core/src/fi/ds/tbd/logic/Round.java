@@ -1,6 +1,8 @@
-package fi.ds.tbd;
+package fi.ds.tbd.logic;
 
+import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import fi.ds.tbd.Map;
 
 /**
  *

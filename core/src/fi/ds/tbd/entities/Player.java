@@ -1,9 +1,11 @@
-package fi.ds.tbd;
+package fi.ds.tbd.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
+import fi.ds.tbd.logic.CollisionChecker;
+import fi.ds.tbd.Sprite;
 
 /**
  *
