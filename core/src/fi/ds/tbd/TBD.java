@@ -13,8 +13,7 @@ public class TBD extends Game {
     public void create () {
         batch = new SpriteBatch();
         player = new Player();
-        player.x = 50;
-        player.y = 50;
+        player.setPosition(50, 50);
     }
 
     @Override

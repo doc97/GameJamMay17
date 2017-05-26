@@ -8,25 +8,30 @@ import com.badlogic.gdx.utils.Disposable;
  *
  * @author Daniel
  */
-public class Player extends GameObject {
+public class Player implements Disposable {
 
-    private final Texture texture;
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
+    private final Sprite sprite;
     
     public Player() {
-        this.texture = new Texture("player.png");
-        this.width = 50;
-        this.height = 50;
+        sprite = new Sprite();
+        sprite.width = WIDTH;
+        sprite.height = HEIGHT;
+        sprite.texture = new Texture("player.png");
     }
     
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width, height);
-        if (tint != null)
-            batch.draw(tint, x, y, width, height);
+        sprite.render(batch);
+    }
+    
+    public void setPosition(float x, float y) {
+        sprite.x = x;
+        sprite.y = y;
     }
     
     @Override
     public void dispose() {
-        super.dispose();
-        texture.dispose();
+        sprite.dispose();
     }
 }
