@@ -26,7 +26,7 @@ public class PlayerInputProcessor extends InputAdapter {
         if (keycode == keycodeUp) {
             player.dy++;
         } else if (keycode == keycodeDown) {
-             player.dy--;
+            player.dy--;
         } else if (keycode == keycodeLeft) {
             player.dx--;
         } else if (keycode == keycodeRight) {
