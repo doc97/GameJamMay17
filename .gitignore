@@ -60,6 +60,7 @@ com_crashlytics_export_strings.xml
 /html/nbproject/private/
 /ios/nbproject/private/
 /ios-moe/nbproject/private/
+.nb-gradle/
 
 /build/
 /android/build/
