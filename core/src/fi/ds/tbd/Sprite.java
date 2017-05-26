@@ -13,8 +13,9 @@ public class Sprite implements Disposable {
     public Texture texture;
     public Texture tint;
     public float width, height;
+    public float x, y;
 
-    public void render(SpriteBatch batch, float x, float y) {
+    public void render(SpriteBatch batch) {
         if (texture != null)
             batch.draw(texture, x, y, width, height);
         if (tint != null)

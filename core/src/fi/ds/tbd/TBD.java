@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class TBD extends Game {
     private SpriteBatch batch;
     private InputMultiplexer inputs;
+    private CollisionChecker collisions;
     private Player player1;
     private Player player2;
     private RoundGame game;
@@ -29,8 +30,9 @@ public class TBD extends Game {
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
         
-        CollisionChecker.player1 = player1;
-        CollisionChecker.player2 = player2;
+        collisions = new CollisionChecker();
+        collisions.player1 = player1;
+        collisions.player2 = player2;
 
         game = new RoundGame(player1, player2);
     }

@@ -18,13 +18,15 @@ public class Map implements Disposable {
     
     public Map() {
         sprite = new Sprite();
+        sprite.x = 0;
+        sprite.y = 0;
         sprite.width = WIDTH;
         sprite.height = HEIGHT;
         sprite.texture = new Texture("background.png");
     }
     
     public void render(SpriteBatch batch) {
-        sprite.render(batch, 0, 0);
+        sprite.render(batch);
     }
     
     @Override
