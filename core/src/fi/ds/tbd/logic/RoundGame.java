@@ -1,8 +1,8 @@
 package fi.ds.tbd.logic;
 
-import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.Gdx;
 import fi.ds.tbd.SpriteRenderer;
+import fi.ds.tbd.TBD;
 
 /**
  *
@@ -11,12 +11,11 @@ import fi.ds.tbd.SpriteRenderer;
 public class RoundGame {
 
     public Round currRound;
-    public Player player1, player2;
+    public TBD game;
     
-    public RoundGame(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
-        currRound = new Round(player1, player2);
+    public RoundGame(TBD game) {
+        this.game = game;
+        currRound = new Round(game);
         currRound.start();
     }
     
@@ -32,11 +31,12 @@ public class RoundGame {
     
     private void nextRound() {
         currRound.finish();
-        currRound = new Round(player1, player2);
+        currRound = new Round(game);
         currRound.start();
     }
     
     private boolean currentRoundHasEnded() {
-        return !currRound.hasTimeLeft() || player1.health <= 0 || player2.health <= 0;
+        return !currRound.hasTimeLeft() || game.player1.health.value() <= 0
+                || game.player2.health.value() <= 0;
     }
 }

@@ -2,6 +2,7 @@ package fi.ds.tbd.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
+import fi.ds.tbd.gui.Property;
 import fi.ds.tbd.logic.Collision;
 import fi.ds.tbd.logic.CollisionFilter;
 import fi.ds.tbd.logic.CollisionListener;
@@ -17,8 +18,8 @@ public class Player extends Entity implements Disposable, CollisionListener {
     public static final int HEIGHT = 50;
     public static final int MAX_HEALTH = 3;
     
-    public int points;
-    public int health;
+    public Property<Integer> points;
+    public Property<Integer> health;
     public boolean hasCollectible;
     
     public float dx, dy;

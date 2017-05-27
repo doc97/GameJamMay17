@@ -3,10 +3,13 @@ package fi.ds.tbd.logic;
 import fi.ds.tbd.entities.Player;
 import fi.ds.tbd.Map;
 import fi.ds.tbd.SpriteRenderer;
+import fi.ds.tbd.TBD;
 import fi.ds.tbd.entities.Bullet;
 import fi.ds.tbd.entities.Collectible;
 import fi.ds.tbd.entities.Entity;
 import fi.ds.tbd.entities.Wall;
+import fi.ds.tbd.gui.Property;
+import fi.ds.tbd.gui.RoundGUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,7 @@ import java.util.List;
  */
 public class Round implements CollisionListener {
 
-    private static final int ROUND_TIME_SEC = 10;
+    private static final int ROUND_TIME_SEC = 120;
     public CollisionChecker collisions;
     public Map map;
     public Player player1, player2;
@@ -27,11 +30,15 @@ public class Round implements CollisionListener {
     private final CollisionFilter bvwFilter;
     private final CollisionFilter bvpFilter;
     private final CollisionFilter bvbFilter;
-    private float timeSec;
+    private float time;
+    private Property<Integer> timeSec;
+    private RoundGUI gui;
+    private TBD game;
     
-    public Round(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Round(TBD game) {
+        this.game = game;
+        this.player1 = game.player1;
+        this.player2 = game.player2;
         entities = new ArrayList<>();
         bvwFilter = (c) -> (c.entityA instanceof Bullet ^ c.entityB instanceof Bullet)
                 && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
@@ -41,16 +48,19 @@ public class Round implements CollisionListener {
     }
     
     public void start() {
-        timeSec = ROUND_TIME_SEC;
+        time = ROUND_TIME_SEC;
+        timeSec = new Property<>(ROUND_TIME_SEC);
         player1.setPosition(50, 50);
         player1.round = this;
         player1.speed = 200;
-        player1.health = Player.MAX_HEALTH;
+        player1.health = new Property<>(Player.MAX_HEALTH);
+        player1.points = new Property<>(0);
         
         player2.setPosition(100, 100);
         player2.round = this;
         player2.speed = 200;
-        player2.health = Player.MAX_HEALTH;
+        player2.health = new Property<>(Player.MAX_HEALTH);
+        player2.points = new Property<>(0);
         
         collectible = new Collectible(350, 500);
         
@@ -71,6 +81,10 @@ public class Round implements CollisionListener {
         collisions.register(collectible.hitbox);
         collisions.register(wall.hitbox);
         collisions.ignore(Bullet.class, Collectible.class);
+        
+        gui = new RoundGUI(game.ui, player1.points, player2.points,
+                player1.health, player2.health, timeSec);
+        gui.create();
     }
     
     public void update(float delta) {
@@ -78,7 +92,8 @@ public class Round implements CollisionListener {
             e.update(delta);
         
         collisions.update();
-        timeSec -= delta;
+        time -= delta;
+        timeSec.set((int) time);
     }
     
     public void prepareRender(SpriteRenderer renderer) {
@@ -107,10 +122,12 @@ public class Round implements CollisionListener {
         } else if (bvpFilter.match(collision)) {
             if (collision.entityA instanceof Bullet) {
                 despawn(collision.entityA);
-                ((Player) collision.entityB).health--;
+                Property<Integer> hp = ((Player) collision.entityB).health;
+                hp.set(hp.value() - 1);
             } else {
                 despawn(collision.entityB);
-                ((Player) collision.entityA).health--;
+                Property<Integer> hp = ((Player) collision.entityA).health;
+                hp.set(hp.value() - 1);
             }
         } else if (bvbFilter.match(collision)) {
             despawn(collision.entityA);
@@ -119,19 +136,19 @@ public class Round implements CollisionListener {
     }
     
     public boolean hasTimeLeft() {
-        return timeSec > 0;
+        return timeSec.value() > 0;
     }
     
     public void finish() {
-        if (player1.health > 0) {
-            player1.points++;
+        if (player1.health.value() > 0) {
+            player1.points.set(player1.points.value() + 1);
             if (player1.hasCollectible)
-                player1.points++;
+                player1.points.set(player1.points.value() + 1);
         }
-        if (player2.health > 0) {
-            player2.points++;
+        if (player2.health.value() > 0) {
+            player2.points.set(player1.points.value() + 1);
             if (player2.hasCollectible)
-                player2.points++;
+                player2.points.set(player1.points.value() + 1);
         }
     }
 }

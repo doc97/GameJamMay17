@@ -7,17 +7,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import fi.ds.tbd.gui.UI;
 
 public class TBD extends Game {
     private SpriteRenderer renderer;
     private InputMultiplexer inputs;
-    private Player player1;
-    private Player player2;
     private RoundGame game;
+    public Player player1;
+    public Player player2;
+    public UI ui;
 
     @Override
     public void create () {
         renderer = new SpriteRenderer();
+        ui = new UI();
+        ui.create();
         
         player1 = new Player(100, 100);
         player2 = new Player(400, 400);
@@ -29,17 +33,19 @@ public class TBD extends Game {
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
         
-        game = new RoundGame(player1, player2);
+        game = new RoundGame(this);
     }
 
     @Override
     public void render () {
         game.update(Gdx.graphics.getDeltaTime());
+        ui.update(Gdx.graphics.getDeltaTime());
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.prepareRender(renderer);
         renderer.render();
+        ui.render();
     }
 
     @Override
