@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 /**
  *
  * @author Daniel
+ * @param <T>
  */
 public class PropertyLabel<T> extends Label {
 

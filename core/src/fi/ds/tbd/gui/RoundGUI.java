@@ -36,17 +36,17 @@ public class RoundGUI extends GUI {
         labelStyle.font = new BitmapFont();
         labelStyle.fontColor = Color.WHITE;
         
-        PropertyLabel p1HealthLbl = new PropertyLabel(p1Health, labelStyle);
+        HealthIndicator p1HealthIn = new HealthIndicator(p1Health);
         PropertyLabel p1ScoreLbl = new PropertyLabel(p1Score, labelStyle);
-        PropertyLabel p2HealthLbl = new PropertyLabel(p2Health, labelStyle);
+        HealthIndicator p2HealthIn = new HealthIndicator(p2Health);
         PropertyLabel p2ScoreLbl = new PropertyLabel(p2Score, labelStyle);
         PropertyLabel roundTimeLbl = new PropertyLabel(roundTime, labelStyle);
         
-        ui.root.add(p1HealthLbl).align(Align.topLeft).expandX();
-        ui.root.add(p1ScoreLbl);
-        ui.root.add(roundTimeLbl).width(96).align(Align.center);
-        ui.root.add(p2ScoreLbl);
-        ui.root.add(p2HealthLbl).align(Align.topRight).expandX();
+        ui.root.add(p1HealthIn).align(Align.topLeft).width(63 * 3).expandX().pad(10);
+        ui.root.add(p1ScoreLbl).pad(10);
+        ui.root.add(roundTimeLbl).width(96).align(Align.center).pad(10);
+        ui.root.add(p2ScoreLbl).pad(10);
+        ui.root.add(p2HealthIn).align(Align.topRight).width(63 * 3).expandX().pad(10);
         ui.root.row();
         ui.root.add().colspan(5).expand();
     }
