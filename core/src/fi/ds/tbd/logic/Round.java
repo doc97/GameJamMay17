@@ -25,12 +25,10 @@ public class Round {
     
     public void start() {
         timeSec = ROUND_TIME_SEC;
-        player1.x = 50;
-        player1.y = 50;
+        player1.setPosition(50, 50);
         player1.speed = 200;
         
-        player2.x = 200;
-        player2.y = 200;
+        player2.setPosition(100, 100);
         player2.speed = 200;
         
         map = new Map();

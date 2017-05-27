@@ -8,6 +8,8 @@ public class Wall extends Entity {
     public static final int HEIGHT = 128;
     
     public Wall(float x, float y) {
-        super(x, y, WIDTH, HEIGHT, WIDTH, HEIGHT, new Texture("wall.png"));
+        super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
+                    -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
+                    new Texture("wall.png"));
     }
 }
