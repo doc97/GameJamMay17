@@ -15,6 +15,9 @@ public class Player extends Entity implements Disposable, CollisionListener {
 
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
+    public static final int MAX_HEALTH = 3;
+    
+    public int health;
     
     public float dx, dy;
     public float speed;

@@ -42,10 +42,12 @@ public class Round implements CollisionListener {
         player1.setPosition(50, 50);
         player1.round = this;
         player1.speed = 200;
+        player1.health = Player.MAX_HEALTH;
         
         player2.setPosition(100, 100);
         player2.round = this;
         player2.speed = 200;
+        player2.health = Player.MAX_HEALTH;
         
         map = new Map();
         wall = new Wall(Wall.WIDTH * 5, Wall.HEIGHT * 2);
@@ -96,10 +98,13 @@ public class Round implements CollisionListener {
             else
                 despawn((Bullet) collision.entityB);
         } else if (bvpFilter.match(collision)) {
-            if (collision.entityA instanceof Bullet)
+            if (collision.entityA instanceof Bullet) {
                 despawn((Bullet) collision.entityA);
-            else
+                ((Player) collision.entityB).health--;
+            } else {
                 despawn((Bullet) collision.entityB);
+                ((Player) collision.entityA).health--;
+            }
         } else if (bvbFilter.match(collision)) {
             despawn((Bullet) collision.entityA);
             despawn((Bullet) collision.entityB);

@@ -22,7 +22,7 @@ public class RoundGame {
     
     public void update(float delta) {
         currRound.update(Gdx.graphics.getDeltaTime());
-        if (!currRound.hasTimeLeft())
+        if (currentRoundHasEnded())
             nextRound();
     }
     
@@ -34,5 +34,9 @@ public class RoundGame {
         currRound.finish();
         currRound = new Round(player1, player2);
         currRound.start();
+    }
+    
+    private boolean currentRoundHasEnded() {
+        return !currRound.hasTimeLeft() || player1.health <= 0 || player2.health <= 0;
     }
 }
