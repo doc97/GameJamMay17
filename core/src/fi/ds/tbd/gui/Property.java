@@ -3,6 +3,7 @@ package fi.ds.tbd.gui;
 /**
  *
  * @author Daniel
+ * @param <T>
  */
 public class Property<T> {
     private PropertyListener<T> listener;
@@ -17,7 +18,8 @@ public class Property<T> {
     
     public void set(T t) {
         this.t = t;
-        listener.notifyChange(t);
+        if (listener != null)
+            listener.notifyChange(t);
     }
     
     public void setListener(PropertyListener<T> listener) {

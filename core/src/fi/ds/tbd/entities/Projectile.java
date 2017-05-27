@@ -6,16 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
  *
  * @author Daniel
  */
-public class Bullet extends Entity {
+public class Projectile extends Entity {
     public static final int SPEED = 800;
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
+    public static final int WIDTH = 19;
+    public static final int HEIGHT = 19;
     private final float dx, dy;
     
-    public Bullet(float x, float y, float dx, float dy) {
+    public Projectile(float x, float y, float dx, float dy, Texture texture) {
         super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
-                    -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
-                    new Texture("bullet.png"));
+                    -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT, texture);
         this.dx = dx;
         this.dy = dy;
     }

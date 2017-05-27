@@ -28,14 +28,17 @@ public class Player extends Entity implements Disposable, CollisionListener {
 
     private float dirX, dirY;
     
+    private final Texture projectileTex;
     private final CollisionFilter pvpFilter;
     private final CollisionFilter pvwFilter;
     private final CollisionFilter pvcFilter;
     
-    public Player(float x, float y) {
+    public Player(float x, float y, Texture texture, Texture projectileTex) {
         super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
-                    -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
-                    new Texture("player.png"));
+                    -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT, texture);
+        this.projectileTex = projectileTex;
+        points = new Property<>(0);
+        health = new Property<>(MAX_HEALTH);
         pvpFilter = (c) -> c.entityA instanceof Player && c.entityB instanceof Player;
         pvwFilter = (c) -> (c.entityA.equals(this) ^ c.entityB.equals(this))
                 && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
@@ -57,9 +60,11 @@ public class Player extends Entity implements Disposable, CollisionListener {
     }
     
     public void shoot() {
-        Bullet bullet = new Bullet(x + dirX * WIDTH, y + dirY * HEIGHT,
-                dirX * Bullet.SPEED, dirY * Bullet.SPEED);
-        round.spawn(bullet);
+        Projectile projectile = new Projectile(x + dirX * (Projectile.WIDTH + WIDTH) / 2,
+                y + dirY * (Projectile.HEIGHT + HEIGHT) / 2,
+                dirX * Projectile.SPEED, dirY * Projectile.SPEED,
+                projectileTex);
+        round.spawn(projectile);
     }
     public void setPosition(float x, float y) {
         this.x = x;

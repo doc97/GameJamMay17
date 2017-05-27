@@ -4,7 +4,7 @@ import fi.ds.tbd.entities.Player;
 import fi.ds.tbd.Map;
 import fi.ds.tbd.SpriteRenderer;
 import fi.ds.tbd.TBD;
-import fi.ds.tbd.entities.Bullet;
+import fi.ds.tbd.entities.Projectile;
 import fi.ds.tbd.entities.Collectible;
 import fi.ds.tbd.entities.Entity;
 import fi.ds.tbd.entities.Wall;
@@ -40,27 +40,29 @@ public class Round implements CollisionListener {
         this.player1 = game.player1;
         this.player2 = game.player2;
         entities = new ArrayList<>();
-        bvwFilter = (c) -> (c.entityA instanceof Bullet ^ c.entityB instanceof Bullet)
+        bvwFilter = (c) -> (c.entityA instanceof Projectile ^ c.entityB instanceof Projectile)
                 && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
-        bvpFilter = (c) -> (c.entityA instanceof Bullet ^ c.entityB instanceof Bullet)
+        bvpFilter = (c) -> (c.entityA instanceof Projectile ^ c.entityB instanceof Projectile)
                 && (c.entityA instanceof Player ^ c.entityB instanceof Player);
-        bvbFilter = (c) -> (c.entityA instanceof Bullet && c.entityB instanceof Bullet);
+        bvbFilter = (c) -> (c.entityA instanceof Projectile && c.entityB instanceof Projectile);
+        
+        timeSec = new Property<>(ROUND_TIME_SEC);
+        gui = new RoundGUI(game.ui, player1.points, player2.points,
+                player1.health, player2.health, timeSec);
     }
     
     public void start() {
         time = ROUND_TIME_SEC;
-        timeSec = new Property<>(ROUND_TIME_SEC);
+        timeSec.set(ROUND_TIME_SEC);
         player1.setPosition(50, 50);
         player1.round = this;
         player1.speed = 200;
-        player1.health = new Property<>(Player.MAX_HEALTH);
-        player1.points = new Property<>(0);
+        player1.health.set(Player.MAX_HEALTH);
         
         player2.setPosition(100, 100);
         player2.round = this;
         player2.speed = 200;
-        player2.health = new Property<>(Player.MAX_HEALTH);
-        player2.points = new Property<>(0);
+        player2.health.set(Player.MAX_HEALTH);
         
         collectible = new Collectible(350, 500);
         
@@ -80,10 +82,8 @@ public class Round implements CollisionListener {
         collisions.register(player2.hitbox);
         collisions.register(collectible.hitbox);
         collisions.register(wall.hitbox);
-        collisions.ignore(Bullet.class, Collectible.class);
+        collisions.ignore(Projectile.class, Collectible.class);
         
-        gui = new RoundGUI(game.ui, player1.points, player2.points,
-                player1.health, player2.health, timeSec);
         gui.create();
     }
     
@@ -97,7 +97,7 @@ public class Round implements CollisionListener {
     }
     
     public void prepareRender(SpriteRenderer renderer) {
-        renderer.add(map.sprite);
+        //renderer.add(map.sprite);
         for (Entity e : entities)
             renderer.add(e.sprite);
     }
@@ -115,12 +115,12 @@ public class Round implements CollisionListener {
     @Override
     public void notify(Collision collision) {
         if (bvwFilter.match(collision)) {
-            if (collision.entityA instanceof Bullet)
+            if (collision.entityA instanceof Projectile)
                 despawn(collision.entityA);
             else
                 despawn(collision.entityB);
         } else if (bvpFilter.match(collision)) {
-            if (collision.entityA instanceof Bullet) {
+            if (collision.entityA instanceof Projectile) {
                 despawn(collision.entityA);
                 Property<Integer> hp = ((Player) collision.entityB).health;
                 hp.set(hp.value() - 1);
@@ -146,9 +146,9 @@ public class Round implements CollisionListener {
                 player1.points.set(player1.points.value() + 1);
         }
         if (player2.health.value() > 0) {
-            player2.points.set(player1.points.value() + 1);
+            player2.points.set(player2.points.value() + 1);
             if (player2.hasCollectible)
-                player2.points.set(player1.points.value() + 1);
+                player2.points.set(player2.points.value() + 1);
         }
     }
 }

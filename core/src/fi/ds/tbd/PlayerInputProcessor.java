@@ -2,8 +2,6 @@ package fi.ds.tbd;
 
 import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.InputAdapter;
-import fi.ds.tbd.entities.Bullet;
-import fi.ds.tbd.logic.Round;
 
 public class PlayerInputProcessor extends InputAdapter {
     

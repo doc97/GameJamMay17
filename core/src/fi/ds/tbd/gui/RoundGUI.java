@@ -2,7 +2,6 @@ package fi.ds.tbd.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.Align;
 
@@ -35,7 +34,7 @@ public class RoundGUI extends GUI {
         
         LabelStyle labelStyle = new LabelStyle();
         labelStyle.font = new BitmapFont();
-        labelStyle.fontColor = Color.BLACK;
+        labelStyle.fontColor = Color.WHITE;
         
         PropertyLabel p1HealthLbl = new PropertyLabel(p1Health, labelStyle);
         PropertyLabel p1ScoreLbl = new PropertyLabel(p1Score, labelStyle);
