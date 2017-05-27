@@ -1,5 +1,6 @@
 package fi.ds.tbd.logic;
 
+import com.badlogic.gdx.Gdx;
 import fi.ds.tbd.entities.Player;
 import fi.ds.tbd.Map;
 import fi.ds.tbd.SpriteRenderer;
@@ -53,12 +54,12 @@ public class Round implements CollisionListener {
     public void start() {
         time = ROUND_TIME_SEC;
         timeSec.set(ROUND_TIME_SEC);
-        player1.setPosition(50, 50);
+        player1.setPosition(175, Gdx.graphics.getHeight() / 2);
         player1.round = this;
         player1.speed = 200;
         player1.health.set(Player.MAX_HEALTH);
         
-        player2.setPosition(100, 100);
+        player2.setPosition(Gdx.graphics.getWidth() - 175, Gdx.graphics.getHeight() / 2);
         player2.round = this;
         player2.speed = 200;
         player2.health.set(Player.MAX_HEALTH);
@@ -90,12 +91,53 @@ public class Round implements CollisionListener {
             9, 4,
             9, 6,
             11, 3,
-            11, 5
+            11, 5,
+            // Here starts outer walls
+            0, 0,
+            0, 1,
+            0, 2,
+            0, 3,
+            0, 4,
+            0, 5,
+            0, 6,
+            0, 7,
+            1, 0,
+            1, 7,
+            2, 0,
+            2, 7,
+            3, 0,
+            3, 7,
+            4, 0,
+            4, 7,
+            5, 0,
+            5, 7,
+            6, 0,
+            6, 7,
+            7, 0,
+            7, 7,
+            8, 0,
+            8, 7,
+            9, 0,
+            9, 7,
+            10, 0,
+            10, 7,
+            11, 0,
+            11, 7,
+            12, 0,
+            12, 7,
+            13, 0,
+            13, 1,
+            13, 2,
+            13, 3,
+            13, 4,
+            13, 5,
+            13, 6,
+            13, 7
         };
         for (int i = 0; i < wallCoords.length; i += 2) {
             int x = wallCoords[i];
             int y = wallCoords[i + 1];
-            Wall wall = new Wall(Wall.WIDTH * x, Wall.HEIGHT * y);
+            Wall wall = new Wall(Wall.WIDTH * (x + 0.5f), Wall.HEIGHT * (y + 0.5f));
             entities.add(wall);
             collisions.register(wall.hitbox);
         }

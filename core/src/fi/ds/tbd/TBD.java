@@ -24,12 +24,12 @@ public class TBD extends Game {
         ui = new UI();
         ui.create();
         
-        player1 = new Player(100, 100, new Texture("player1.png"), new Texture("Orb1.png"));
-        player2 = new Player(400, 400, new Texture("player2.png"), new Texture("Orb2.png"));
+        player1 = new Player(175, Gdx.graphics.getHeight() / 2, new Texture("player1.png"), new Texture("Orb1.png"));
+        player2 = new Player(Gdx.graphics.getWidth() - 175, Gdx.graphics.getHeight() / 2, new Texture("player2.png"), new Texture("Orb2.png"));
         
         inputs = new InputMultiplexer();
         PlayerInputProcessor p1Input = new PlayerInputProcessor(player1, Keys.W, Keys.S, Keys.A, Keys.D, Keys.SPACE);
-        PlayerInputProcessor p2Input = new PlayerInputProcessor(player2, Keys.I, Keys.K, Keys.J, Keys.L, Keys.SHIFT_RIGHT);
+        PlayerInputProcessor p2Input = new PlayerInputProcessor(player2, Keys.UP, Keys.DOWN, Keys.LEFT, Keys.RIGHT, Keys.PAGE_DOWN);
         inputs.addProcessor(p1Input);
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
