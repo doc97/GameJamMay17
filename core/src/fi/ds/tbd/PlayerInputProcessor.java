@@ -2,6 +2,8 @@ package fi.ds.tbd;
 
 import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.InputAdapter;
+import fi.ds.tbd.entities.Bullet;
+import fi.ds.tbd.logic.Round;
 
 public class PlayerInputProcessor extends InputAdapter {
     
@@ -13,7 +15,8 @@ public class PlayerInputProcessor extends InputAdapter {
     public int keycodeRight;
     public int keycodeShoot;
     
-    public PlayerInputProcessor(Player player, int keycodeUp, int keycodeDown, int keycodeLeft, int keycodeRight, int keycodeShoot) {
+    public PlayerInputProcessor(Player player, int keycodeUp, int keycodeDown,
+            int keycodeLeft, int keycodeRight, int keycodeShoot) {
         this.player = player;
         this.keycodeUp = keycodeUp;
         this.keycodeDown = keycodeDown;
@@ -33,7 +36,7 @@ public class PlayerInputProcessor extends InputAdapter {
         } else if (keycode == keycodeRight) {
             player.dx++;
         } else if (keycode == keycodeShoot) {
-            
+            player.shoot();
         }
         return false;
     }
@@ -48,8 +51,6 @@ public class PlayerInputProcessor extends InputAdapter {
             player.dx++;
         } else if (keycode == keycodeRight) {
             player.dx--;
-        } else if (keycode == keycodeShoot) {
-            
         }
         return false;
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import fi.ds.tbd.logic.Collision;
 import fi.ds.tbd.logic.CollisionFilter;
 import fi.ds.tbd.logic.CollisionListener;
+import fi.ds.tbd.logic.Round;
 
 /**
  *
@@ -17,7 +18,10 @@ public class Player extends Entity implements Disposable, CollisionListener {
     
     public float dx, dy;
     public float speed;
+    public Round round;
 
+    private float dirX, dirY;
+    
     private final CollisionFilter pvpFilter;
     private final CollisionFilter pvwFilter;
     
@@ -33,9 +37,20 @@ public class Player extends Entity implements Disposable, CollisionListener {
     public void update(float delta) {
         x += dx * speed * delta;
         y += dy * speed * delta;
+        
+        if (dx != 0 || dy != 0) {
+            dirX = dx;
+            dirY = dy;
+        }
+        
         syncComponentPos();
     }
     
+    public void shoot() {
+        Bullet bullet = new Bullet(x + dirX * WIDTH, y + dirY * HEIGHT,
+                dirX * Bullet.SPEED, dirY * Bullet.SPEED);
+        round.spawn(bullet);
+    }
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
