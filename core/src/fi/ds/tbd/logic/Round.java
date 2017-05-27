@@ -12,20 +12,29 @@ import java.util.List;
  *
  * @author Daniel
  */
-public class Round {
+public class Round implements CollisionListener {
 
     private static final int ROUND_TIME_SEC = 10;
     public Player player1, player2;
     public CollisionChecker collisions;
     public Map map;
     public Wall wall;
+
     private final List<Bullet> bullets;
+    private final CollisionFilter bvwFilter;
+    private final CollisionFilter bvpFilter;
+    private final CollisionFilter bvbFilter;
     private float timeSec;
     
     public Round(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         bullets = new ArrayList<>();
+        bvwFilter = (c) -> (c.entityA instanceof Bullet | c.entityB instanceof Bullet)
+                && (c.entityA instanceof Wall | c.entityB instanceof Wall);
+        bvpFilter = (c) -> (c.entityA instanceof Bullet | c.entityB instanceof Bullet)
+                && (c.entityA instanceof Player | c.entityB instanceof Player);
+        bvbFilter = (c) -> (c.entityA instanceof Bullet && c.entityB instanceof Bullet);
     }
     
     public void start() {
@@ -42,6 +51,7 @@ public class Round {
         wall = new Wall(Wall.WIDTH * 5, Wall.HEIGHT * 2);
         
         collisions = new CollisionChecker();
+        collisions.addListener(this);
         collisions.addListener(player1);
         collisions.addListener(player2);
         collisions.register(player1.hitbox);
@@ -70,6 +80,30 @@ public class Round {
     
     public void spawn(Bullet bullet) {
         bullets.add(bullet);
+        collisions.register(bullet.hitbox);
+    }
+    
+    public void despawn(Bullet bullet) {
+        collisions.unregister(bullet.hitbox);
+        bullets.remove(bullet);
+    }
+    
+    @Override
+    public void notify(Collision collision) {
+        if (bvwFilter.match(collision)) {
+            if (collision.entityA instanceof Bullet)
+                despawn((Bullet) collision.entityA);
+            else
+                despawn((Bullet) collision.entityB);
+        } else if (bvpFilter.match(collision)) {
+            if (collision.entityA instanceof Bullet)
+                despawn((Bullet) collision.entityA);
+            else
+                despawn((Bullet) collision.entityB);
+        } else if (bvbFilter.match(collision)) {
+            despawn((Bullet) collision.entityA);
+            despawn((Bullet) collision.entityB);
+        }
     }
     
     public boolean hasTimeLeft() {
