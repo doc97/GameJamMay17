@@ -17,7 +17,9 @@ public class Player extends Entity implements Disposable, CollisionListener {
     public static final int HEIGHT = 50;
     public static final int MAX_HEALTH = 3;
     
+    public int points;
     public int health;
+    public boolean hasCollectible;
     
     public float dx, dy;
     public float speed;
@@ -27,6 +29,7 @@ public class Player extends Entity implements Disposable, CollisionListener {
     
     private final CollisionFilter pvpFilter;
     private final CollisionFilter pvwFilter;
+    private final CollisionFilter pvcFilter;
     
     public Player(float x, float y) {
         super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
@@ -35,8 +38,11 @@ public class Player extends Entity implements Disposable, CollisionListener {
         pvpFilter = (c) -> c.entityA instanceof Player && c.entityB instanceof Player;
         pvwFilter = (c) -> (c.entityA.equals(this) ^ c.entityB.equals(this))
                 && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
+        pvcFilter = (c) -> (c.entityA.equals(this) ^ c.entityB.equals(this))
+                && (c.entityA instanceof Collectible ^ c.entityB instanceof Collectible);
     }
     
+    @Override
     public void update(float delta) {
         x += dx * speed * delta;
         y += dy * speed * delta;
@@ -85,6 +91,13 @@ public class Player extends Entity implements Disposable, CollisionListener {
                 x += mod * col.intersect.width;
             }
             syncComponentPos();
+        } else if (pvcFilter.match(col)) {
+            if (col.entityA instanceof Collectible)
+                round.despawn(col.entityA);
+            else
+                round.despawn(col.entityB);
+
+            hasCollectible = true;
         }
     }
 }

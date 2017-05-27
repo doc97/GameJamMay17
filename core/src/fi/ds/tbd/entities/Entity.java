@@ -11,8 +11,8 @@ import fi.ds.tbd.logic.Hitbox;
 public abstract class Entity {
     public final Sprite sprite;
     public final Hitbox hitbox;
-    public float sOffsetX, sOffsetY;
-    public float hOffsetX, hOffsetY;
+    private final float sOffsetX, sOffsetY;
+    private final float hOffsetX, hOffsetY;
     protected float x, y;
     
     public Entity(float x, float y,
@@ -33,6 +33,8 @@ public abstract class Entity {
         sprite.texture = texture;
         hitbox = new Hitbox(this, x + hOffsetX, y + hOffsetY, hWidth, hHeight);
     }
+    
+    public void update(float delta) {}
     
     protected void syncComponentPos() {
         sprite.x = x + sOffsetX;
