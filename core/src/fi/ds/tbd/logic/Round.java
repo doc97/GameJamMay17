@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class Round implements CollisionListener {
 
-    private static final int ROUND_TIME_SEC = 120;
+    private static final int ROUND_TIME_SEC = 30;
     public CollisionChecker collisions;
     public Map map;
     public Player player1, player2;
