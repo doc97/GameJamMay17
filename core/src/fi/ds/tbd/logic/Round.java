@@ -70,6 +70,7 @@ public class Round implements CollisionListener {
         collisions.register(player2.hitbox);
         collisions.register(collectible.hitbox);
         collisions.register(wall.hitbox);
+        collisions.ignore(Bullet.class, Collectible.class);
     }
     
     public void update(float delta) {

@@ -1,11 +1,12 @@
 package fi.ds.tbd.logic;
 
-import fi.ds.tbd.entities.Wall;
-import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -14,11 +15,13 @@ import java.util.List;
  */
 public class CollisionChecker {
     
+    private final Map<Class<?>,List<Class<?>>> ignoreMap;
     private final List<Hitbox> hitboxes;
     private final List<CollisionListener> listeners;
     private final Rectangle intersect;
     
     public CollisionChecker() {
+        ignoreMap = new HashMap<>();
         hitboxes = new ArrayList<>();
         listeners = new ArrayList<>();
         intersect = new Rectangle();
@@ -40,6 +43,34 @@ public class CollisionChecker {
         listeners.remove(listener);
     }
     
+    public void ignore(Class<?> clazz1, Class<?> clazz2) {
+        if (!ignoreMap.containsKey(clazz1))
+            ignoreMap.put(clazz1, new ArrayList<>());
+        if (!ignoreMap.containsKey(clazz2))
+            ignoreMap.put(clazz2, new ArrayList<>());
+
+        ignoreMap.get(clazz1).add(clazz2);
+        ignoreMap.get(clazz2).add(clazz1);
+    }
+
+    public void notice(Class<?> clazz1, Class<?> clazz2) {
+        ignoreMap.remove(clazz1);
+        ignoreMap.remove(clazz2);
+        for (Iterator<Map.Entry<Class<?>, List<Class<?>>>> it = ignoreMap.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<Class<?>, List<Class<?>>> entry = it.next();
+            if (entry.getValue().contains(clazz1)) {
+                it.remove();
+            }
+        }
+        
+        for (Iterator<Map.Entry<Class<?>, List<Class<?>>>> it = ignoreMap.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<Class<?>, List<Class<?>>> entry = it.next();
+            if (entry.getValue().contains(clazz2)) {
+                it.remove();
+            }
+        }
+    }
+    
     public void update() {
         boolean conflict;
         do {
@@ -49,7 +80,12 @@ public class CollisionChecker {
                 for (int j = i + 1; j < hitboxes.size(); j++) {
                     Hitbox h1 = hitboxes.get(i);
                     Hitbox h2 = hitboxes.get(j);
-                    if (Intersector.intersectRectangles(h1, h2, intersect)) {
+                    
+                    List<Class<?>> clazzes = ignoreMap.get(h1.owner.getClass());
+                    boolean ignored = clazzes != null && clazzes.contains(h2.owner.getClass());
+                    boolean intersects = Intersector.intersectRectangles(h1, h2, intersect);
+                    
+                    if (intersects && !ignored) {
                         Collision collision = new Collision(h1.owner, h2.owner, intersect);
                         collisions.add(collision);
                         conflict = true;
