@@ -5,32 +5,61 @@ import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * 
+ * @author Sofia
+ * @author Daniel
+ */
 public class CollisionChecker {
     
-    public static ArrayList<Wall> walls;
-    public static Player player1;
-    public static Player player2;
+    private final List<Hitbox> hitboxes;
+    private final List<CollisionListener> listeners;
+    private final Rectangle intersect;
     
-    public static boolean didPlayersIntersect(Rectangle intersect) {
-        if (player1 != null && player2 != null)
-            return Intersector.intersectRectangles(player1.hitbox, player2.hitbox,
-                    intersect == null ? new Rectangle() : intersect);
-        return false;
+    public CollisionChecker() {
+        hitboxes = new ArrayList<>();
+        listeners = new ArrayList<>();
+        intersect = new Rectangle();
     }
     
-    public static boolean didIHitWall(Player player) {
-        return false;
+    public void register(Hitbox hitbox) {
+        hitboxes.add(hitbox);
     }
     
-    /*
-    public static boolean didIHitWall(Bullet bullet) {
-        return false;
+    public void unregister(Hitbox hitbox) {
+        hitboxes.remove(hitbox);
     }
     
-    public static boolean didIHitPlayer(Bullet bullet) {
-        return false;
+    public void addListener(CollisionListener listener) {
+        listeners.add(listener);
     }
-    */
+    
+    public void removeListener(CollisionListener listener) {
+        listeners.remove(listener);
+    }
+    
+    public void update() {
+        boolean conflict;
+        do {
+            conflict = false;
+            List<Collision> collisions = new ArrayList<>();
+            for (int i = 0; i < hitboxes.size() - 1; i++) {
+                for (int j = i + 1; j < hitboxes.size(); j++) {
+                    Hitbox h1 = hitboxes.get(i);
+                    Hitbox h2 = hitboxes.get(j);
+                    if (Intersector.intersectRectangles(h1, h2, intersect)) {
+                        Collision collision = new Collision(h1.owner, h2.owner, intersect);
+                        collisions.add(collision);
+                        conflict = true;
+                    }
+                }
+            }
 
+            for (Collision collision : collisions)
+                for (CollisionListener listener : listeners)
+                    listener.notify(collision);
+        } while (conflict);
+    }
 }

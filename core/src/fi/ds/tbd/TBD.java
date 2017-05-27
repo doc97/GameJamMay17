@@ -1,6 +1,5 @@
 package fi.ds.tbd;
 
-import fi.ds.tbd.logic.CollisionChecker;
 import fi.ds.tbd.logic.RoundGame;
 import fi.ds.tbd.entities.Player;
 import com.badlogic.gdx.Game;
@@ -30,9 +29,6 @@ public class TBD extends Game {
         inputs.addProcessor(p2Input);
         Gdx.input.setInputProcessor(inputs);
         
-        CollisionChecker.player1 = player1;
-        CollisionChecker.player2 = player2;
-
         game = new RoundGame(player1, player2);
     }
 
