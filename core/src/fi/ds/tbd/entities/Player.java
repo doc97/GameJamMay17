@@ -37,6 +37,7 @@ public class Player extends Entity implements Disposable, CollisionListener {
         super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
                     -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT, texture);
         this.projectileTex = projectileTex;
+        dirX = 1;
         points = new Property<>(0);
         health = new Property<>(MAX_HEALTH);
         pvpFilter = (c) -> c.entityA instanceof Player && c.entityB instanceof Player;
@@ -56,6 +57,8 @@ public class Player extends Entity implements Disposable, CollisionListener {
             dirY = dy;
         }
         
+        sprite.flipX = dirX < 0;
+
         syncComponentPos();
     }
     

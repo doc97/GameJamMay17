@@ -24,7 +24,6 @@ public class Round implements CollisionListener {
     public Map map;
     public Player player1, player2;
     public Collectible collectible;
-    public Wall wall;
 
     private final List<Entity> entities;
     private final CollisionFilter bvwFilter;
@@ -64,15 +63,12 @@ public class Round implements CollisionListener {
         player2.speed = 200;
         player2.health.set(Player.MAX_HEALTH);
         
-        collectible = new Collectible(350, 500);
-        
+        collectible = new Collectible(700, 350);
         map = new Map();
-        wall = new Wall(Wall.WIDTH * 5, Wall.HEIGHT * 2);
         
         entities.add(player1);
         entities.add(player2);
         entities.add(collectible);
-        entities.add(wall);
         
         collisions = new CollisionChecker();
         collisions.addListener(this);
@@ -81,8 +77,28 @@ public class Round implements CollisionListener {
         collisions.register(player1.hitbox);
         collisions.register(player2.hitbox);
         collisions.register(collectible.hitbox);
-        collisions.register(wall.hitbox);
         collisions.ignore(Projectile.class, Collectible.class);
+        
+        int[] wallCoords = {
+            1, 5,
+            2, 2,
+            2, 3,
+            4, 3,
+            5, 1,
+            6, 5,
+            8, 2,
+            9, 4,
+            9, 6,
+            11, 3,
+            11, 5
+        };
+        for (int i = 0; i < wallCoords.length; i += 2) {
+            int x = wallCoords[i];
+            int y = wallCoords[i + 1];
+            Wall wall = new Wall(Wall.WIDTH * x, Wall.HEIGHT * y);
+            entities.add(wall);
+            collisions.register(wall.hitbox);
+        }
         
         gui.create();
     }

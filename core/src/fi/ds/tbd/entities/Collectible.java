@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class Collectible extends Entity {
 
-    public static final int WIDTH = 32;
-    public static final int HEIGHT = 32;
+    public static final int WIDTH = 36;
+    public static final int HEIGHT = 36;
     
     public Collectible(float x, float y) {
         super(x, y, -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
                     -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
-                    new Texture("collectible.png"));
+                    new Texture("book.png"));
     }
 }
