@@ -33,8 +33,8 @@ public class Player extends Entity implements Disposable, CollisionListener {
                     -WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT,
                     new Texture("player.png"));
         pvpFilter = (c) -> c.entityA instanceof Player && c.entityB instanceof Player;
-        pvwFilter = (c) -> (c.entityA.equals(this) | c.entityB.equals(this))
-                && (c.entityA instanceof Wall | c.entityB instanceof Wall);
+        pvwFilter = (c) -> (c.entityA.equals(this) ^ c.entityB.equals(this))
+                && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
     }
     
     public void update(float delta) {

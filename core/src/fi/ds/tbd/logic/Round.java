@@ -30,10 +30,10 @@ public class Round implements CollisionListener {
         this.player1 = player1;
         this.player2 = player2;
         bullets = new ArrayList<>();
-        bvwFilter = (c) -> (c.entityA instanceof Bullet | c.entityB instanceof Bullet)
-                && (c.entityA instanceof Wall | c.entityB instanceof Wall);
-        bvpFilter = (c) -> (c.entityA instanceof Bullet | c.entityB instanceof Bullet)
-                && (c.entityA instanceof Player | c.entityB instanceof Player);
+        bvwFilter = (c) -> (c.entityA instanceof Bullet ^ c.entityB instanceof Bullet)
+                && (c.entityA instanceof Wall ^ c.entityB instanceof Wall);
+        bvpFilter = (c) -> (c.entityA instanceof Bullet ^ c.entityB instanceof Bullet)
+                && (c.entityA instanceof Player ^ c.entityB instanceof Player);
         bvbFilter = (c) -> (c.entityA instanceof Bullet && c.entityB instanceof Bullet);
     }
     
