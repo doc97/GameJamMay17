@@ -18,7 +18,6 @@ public class UI implements Disposable {
         
         root = new Table();
         root.setFillParent(true);
-        root.setDebug(true);
         
         stage.addActor(root);
     }

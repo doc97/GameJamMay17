@@ -36,7 +36,7 @@ public abstract class Entity {
     
     public void update(float delta) {}
     
-    protected void syncComponentPos() {
+    public void syncComponentPos() {
         sprite.x = x + sOffsetX;
         sprite.y = y + sOffsetY;
         hitbox.x = x + hOffsetX;

@@ -73,7 +73,9 @@ public class CollisionChecker {
     
     public void update() {
         boolean conflict;
+        int counter = 0;
         do {
+            counter++;
             conflict = false;
             List<Collision> collisions = new ArrayList<>();
             for (int i = 0; i < hitboxes.size() - 1; i++) {
@@ -96,6 +98,9 @@ public class CollisionChecker {
             for (Collision collision : collisions)
                 for (CollisionListener listener : listeners)
                     listener.notify(collision);
+            
+            if (counter > 5)
+                break;
         } while (conflict);
     }
 }
