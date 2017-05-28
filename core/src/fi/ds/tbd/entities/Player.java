@@ -101,6 +101,7 @@ public class Player extends Entity implements Disposable, CollisionListener {
                 int mod = col.intersect.x == hitbox.x ? 1 : -1;
                 x += mod * col.intersect.width / 2;
             }
+            syncComponentPos();
         } else if (pvwFilter.match(col)) {
             if (col.intersect.width > col.intersect.height) {
                 int mod = col.intersect.y == hitbox.y ? 1 : -1;
@@ -109,6 +110,7 @@ public class Player extends Entity implements Disposable, CollisionListener {
                 int mod = col.intersect.x == hitbox.x ? 1 : -1;
                 x += mod * col.intersect.width;
             }
+            syncComponentPos();
         } else if (pvcFilter.match(col)) {
             if (col.entityA instanceof Collectible) {
                 round.despawn(col.entityA);

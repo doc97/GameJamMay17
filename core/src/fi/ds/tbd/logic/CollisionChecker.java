@@ -90,14 +90,18 @@ public class CollisionChecker {
                     if (intersects && !ignored) {
                         Collision collision = new Collision(h1.owner, h2.owner, intersect);
                         collisions.add(collision);
+                        for (CollisionListener listener : listeners)
+                            listener.notify(collision);
                         conflict = true;
                     }
                 }
             }
 
-            for (Collision collision : collisions)
+            /*for (Collision collision : collisions)
                 for (CollisionListener listener : listeners)
                     listener.notify(collision);
+            */
+            
             
             if (counter > 5)
                 break;
